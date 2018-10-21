@@ -26,7 +26,8 @@ public class StoreManagerDao {
 	public Iterable<StoreManager> findAllStoreManagers() {
 		return storeManagerRepository.findAll();
 	}
-	
+	  
+	 
 	@GetMapping("/api/storeManager/{storeManagerId}")
 	public StoreManager findStoreManagerById(
 			@PathVariable("storeManagerId") int id) {

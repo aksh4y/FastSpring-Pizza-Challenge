@@ -22,9 +22,17 @@ public class Store {
 	@JsonIgnore
 	private List<StoreManager> storeManagers;
 	
-	public Store() {
+	public Store(String name) {
 		super();
+		this.name = name;
 	}
+	
+	public Store(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+		
 	public int getId() {
 		return id;
 	}
@@ -42,6 +50,12 @@ public class Store {
 	}
 	public void setStoreManagers(List<StoreManager> managers) {
 		this.storeManagers = managers;
+	}
+	public void set(Store newStore) {
+		this.name = newStore.name != null ?
+				newStore.name : this.name; 
+		this.storeManagers = newStore.storeManagers != null ?
+				newStore.storeManagers : this.storeManagers;
 	}
 	
 }
