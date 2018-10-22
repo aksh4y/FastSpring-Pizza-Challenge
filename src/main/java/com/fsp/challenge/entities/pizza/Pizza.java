@@ -47,7 +47,6 @@ public class Pizza {
 	@JoinTable(name="pizza_toppings",
 	joinColumns=@JoinColumn(name="PIZZA_ID", referencedColumnName="id"),
 	inverseJoinColumns=@JoinColumn(name="TOPPING_ID", referencedColumnName="id"))
-	@JsonIgnore
 	List<Topping> toppings;
 
 	public Pizza() {
@@ -137,7 +136,11 @@ public class Pizza {
 		calculatePrice();
 	}
 	public void calculatePrice() {
-		price = size.getPrice() + base.getPrice() + cheese.getPrice() + sauce.getPrice();
+		price = 0;
+		price += size != null && (Double) size.getPrice() != null ? size.getPrice() : 0;
+		price += base != null && (Double) base.getPrice() != null ? base.getPrice() : 0;
+		price += cheese != null && (Double) cheese.getPrice() != null ? cheese.getPrice() : 0;
+		price += sauce != null && (Double) sauce.getPrice() != null ? sauce.getPrice() : 0;
 		if(toppings != null)
 			for(Topping t : toppings)
 				price += t.getPrice();

@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsp.challenge.entities.Customer;
 import com.fsp.challenge.entities.PizzaOrder;
+import com.fsp.challenge.entities.Store;
 import com.fsp.challenge.entities.pizza.Pizza;
 import com.fsp.challenge.repositories.CustomerRepository;
 import com.fsp.challenge.repositories.OrderRepository;
 import com.fsp.challenge.repositories.PizzaRepository;
+import com.fsp.challenge.repositories.StoreRepository;
 
 @RestController
 public class OrderDao {
@@ -24,6 +26,8 @@ public class OrderDao {
 	PizzaRepository pizzaRepository;
 	@Autowired
 	CustomerRepository customerRepository;
+	@Autowired
+	StoreRepository storeRepository;
 
 	@PostMapping("/api/order")
 	public PizzaOrder createOrder(@RequestBody PizzaOrder order) {
@@ -50,15 +54,23 @@ public class OrderDao {
 		return orderRepository.save(order);
 	}
 	
-	@PutMapping("/api/order/{orderId}/customer/{cid}/pizza/{pid}")
+	@PutMapping("/api/order/{orderId}/store/{sid}/customer/{cid}/pizza/{pid}")
 	public PizzaOrder buildOrder(
 			@PathVariable("orderId") int id,
+			@PathVariable("sid") int sid,
 			@PathVariable("cid") int cid,
 			@PathVariable("pid") int pid) {
 		PizzaOrder order = orderRepository.findOne(id);
 		Customer c = customerRepository.findOne(cid);
+		Store s = storeRepository.findOne(sid);
 		Pizza p = pizzaRepository.findOne(pid);
+		if(c == null || s == null || p == null || p.getBase() == null || p.getCheese() == null || p.getSauce() == null || p.getSize() == null) {
+			orderRepository.delete(id);	// invalid order
+			return null;
+		}
 		order.setCustomer(c);
+		order.setStore(s);
+		p.setOrder(order);
 		order.addPizza(p);
 		return orderRepository.save(order);
 	}

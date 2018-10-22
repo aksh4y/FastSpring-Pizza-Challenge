@@ -70,7 +70,12 @@ public class PizzaDao {
 			@PathVariable("sizeId") int sId) {
 		Pizza pizza = pizzaRepository.findOne(id);
 		Size size = sizeRepository.findOne(sId);
-		pizza.setSize(size);
+		int quantity = size.getQuantity();
+		if(quantity > 0) {
+			pizza.setSize(size);
+			size.setQuantity(quantity-1);
+			sizeRepository.save(size);
+		}
 		return pizzaRepository.save(pizza);
 	}
 
@@ -81,7 +86,12 @@ public class PizzaDao {
 			@PathVariable("cheeseId") int cId) {
 		Pizza pizza = pizzaRepository.findOne(id);
 		Cheese cheese = cheeseRepository.findOne(cId);
-		pizza.setCheese(cheese);
+		int quantity = cheese.getQuantity();
+		if(quantity > 0) {
+			pizza.setCheese(cheese);
+			cheese.setQuantity(quantity-1);
+			cheeseRepository.save(cheese);
+		}
 		return pizzaRepository.save(pizza);
 	}
 
@@ -92,7 +102,12 @@ public class PizzaDao {
 			@PathVariable("baseId") int bId) {
 		Pizza pizza = pizzaRepository.findOne(id);
 		Base base = baseRepository.findOne(bId);
-		pizza.setBase(base);
+		int quantity = base.getQuantity();
+		if(quantity > 0) {
+			pizza.setBase(base);
+			base.setQuantity(quantity-1);
+			baseRepository.save(base);
+		}
 		return pizzaRepository.save(pizza);
 	}
 	
@@ -103,7 +118,12 @@ public class PizzaDao {
 			@PathVariable("sauceId") int sId) {
 		Pizza pizza = pizzaRepository.findOne(id);
 		Sauce sauce = sauceRepository.findOne(sId);
-		pizza.setSauce(sauce);
+		int quantity = sauce.getQuantity();
+		if(quantity > 0) {
+			pizza.setSauce(sauce);
+			sauce.setQuantity(quantity-1);
+			sauceRepository.save(sauce);
+		}
 		return pizzaRepository.save(pizza);
 	}
 	
@@ -114,7 +134,12 @@ public class PizzaDao {
 			@PathVariable("toppingId") int tId) {
 		Pizza pizza = pizzaRepository.findOne(id);
 		Topping topping = toppingRepository.findOne(tId);
-		pizza.addTopping(topping);
+		int quantity = topping.getQuantity();
+		if(quantity > 0) {
+			pizza.addTopping(topping);
+			topping.setQuantity(quantity-1);
+			toppingRepository.save(topping);
+		}
 		return pizzaRepository.save(pizza);
 	}
 

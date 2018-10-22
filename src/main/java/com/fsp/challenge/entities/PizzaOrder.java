@@ -3,7 +3,6 @@ package com.fsp.challenge.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsp.challenge.entities.pizza.Pizza;
 
 @Entity
@@ -20,16 +18,15 @@ public class PizzaOrder {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
     @JoinColumn(name="STORE_ID")
 	private Store store;
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne
     @JoinColumn(name="CUSTOMER_ID")
 	private Customer customer;
 	private double totalPrice;
 	
 	@OneToMany(mappedBy = "order", orphanRemoval=true)
-	@JsonIgnore
 	private List<Pizza> pizzas;
 
 	public PizzaOrder() {
@@ -104,12 +101,23 @@ public class PizzaOrder {
 
 	public void setPizzas(List<Pizza> pizzas) {
 		this.pizzas = pizzas;
+		calculatePrice();
 	}
 	
 	public void addPizza(Pizza pizza) {
 		if(pizzas == null)
 			pizzas = new ArrayList<Pizza>();
+		pizza.setOrder(this);
 		pizzas.add(pizza);
+		calculatePrice();
+	}
+	
+	public void calculatePrice() {
+		if(pizzas != null) {
+			totalPrice = 0;
+			for(Pizza p : pizzas)
+				totalPrice += p.getPrice();
+		}
 	}
 	
 	public void set(PizzaOrder newOrder) {
@@ -117,5 +125,6 @@ public class PizzaOrder {
 		this.customer = newOrder.customer != null ? newOrder.customer : this.customer;
 		this.totalPrice = (Double) newOrder.totalPrice != null ? newOrder.totalPrice : this.totalPrice;
 		this.pizzas = newOrder.pizzas != null ? newOrder.pizzas : this.pizzas;
+		calculatePrice();
 	}
 }
