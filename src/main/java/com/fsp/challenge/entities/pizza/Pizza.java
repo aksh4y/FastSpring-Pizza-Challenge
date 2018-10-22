@@ -1,5 +1,6 @@
 package com.fsp.challenge.entities.pizza;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,21 +24,21 @@ public class Pizza {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="BASE_ID")
 	private Base base;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="SAUCE_ID")
 	private Sauce sauce;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="CHEESE_ID")
 	private Cheese cheese;
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="SIZE_ID")
 	private Size size;
-	private int price;
+	private double price;
 
-	@ManyToOne()
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="pizza_order_id")
 	@JsonIgnore
 	private PizzaOrder order;
@@ -89,24 +90,28 @@ public class Pizza {
 	}
 	public void setBase(Base base) {
 		this.base = base;
+		calculatePrice();
 	}
 	public Sauce getSauce() {
 		return sauce;
 	}
 	public void setSauce(Sauce sauce) {
 		this.sauce = sauce;
+		calculatePrice();
 	}
 	public Cheese getCheese() {
 		return cheese;
 	}
 	public void setCheese(Cheese cheese) {
 		this.cheese = cheese;
+		calculatePrice();
 	}
 	public Size getSize() {
 		return size;
 	}
 	public void setSize(Size size) {
 		this.size = size;
+		calculatePrice();
 	}
 	public PizzaOrder getOrder() {
 		return order;
@@ -116,11 +121,11 @@ public class Pizza {
 		this.order = order;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	public List<Topping> getToppings() {
@@ -129,6 +134,7 @@ public class Pizza {
 
 	public void setToppings(List<Topping> toppings) {
 		this.toppings = toppings;
+		calculatePrice();
 	}
 	public void calculatePrice() {
 		price = size.getPrice() + base.getPrice() + cheese.getPrice() + sauce.getPrice();
@@ -146,5 +152,10 @@ public class Pizza {
 		this.toppings = newPizza.toppings != null ? newPizza.toppings : this.toppings;
 		calculatePrice();
 	}
-
+	public void addTopping(Topping topping) {
+		if(toppings == null)
+			toppings = new ArrayList<Topping>();
+		toppings.add(topping);	
+		calculatePrice();
+	}
 }

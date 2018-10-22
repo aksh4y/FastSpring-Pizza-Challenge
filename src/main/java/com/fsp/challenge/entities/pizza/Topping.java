@@ -13,19 +13,19 @@ public class Topping {
 	
 	private String name;
 	private int quantity;
-	private int price;
+	private double price;
 	
 	public Topping() {
 		super();
 	}
 
-	public Topping(String name, int price, int quantity) {
+	public Topping(String name, double price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
 	}
 
-	public Topping(int id, String name, int price, int quantity) {
+	public Topping(int id, String name, double price, int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -56,17 +56,17 @@ public class Topping {
 		this.quantity = quantity;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
 	public void set(Topping newTopping) {
 		this.name = newTopping.name != null ? newTopping.name : this.name;
-		this.price = (Integer) newTopping.price != null ? newTopping.price : this.price;
+		this.price = (Double) newTopping.price != null ? newTopping.price : this.price;
 		this.quantity = (Integer) newTopping.quantity != null ? newTopping.quantity : this.quantity;
 	}
 }

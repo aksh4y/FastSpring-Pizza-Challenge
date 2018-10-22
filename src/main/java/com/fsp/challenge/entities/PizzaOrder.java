@@ -1,11 +1,17 @@
 package com.fsp.challenge.entities;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsp.challenge.entities.pizza.Pizza;
 
@@ -14,9 +20,13 @@ public class PizzaOrder {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	private int storeId;
-	private int customerId;
-	private int totalPrice;
+	@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="STORE_ID")
+	private Store store;
+	@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="CUSTOMER_ID")
+	private Customer customer;
+	private double totalPrice;
 	
 	@OneToMany(mappedBy = "order", orphanRemoval=true)
 	@JsonIgnore
@@ -26,32 +36,32 @@ public class PizzaOrder {
 		super();
 	}
 	
-	public PizzaOrder(int storeId, int customerId) {
+	public PizzaOrder(Store store, Customer customer) {
 		super();
-		this.storeId = storeId;
-		this.customerId = customerId;
+		this.store = store;
+		this.customer = customer;
 	}
 	
-	public PizzaOrder(int storeId, int customerId, int totalPrice) {
+	public PizzaOrder(Store store, Customer customer, double totalPrice) {
 		super();
-		this.storeId = storeId;
-		this.customerId = customerId;
+		this.store = store;
+		this.customer = customer;
 		this.totalPrice = totalPrice;
 	}
 	
-	public PizzaOrder(int storeId, int customerId, int totalPrice, List<Pizza> pizzas) {
+	public PizzaOrder(Store store, Customer customer, double totalPrice, List<Pizza> pizzas) {
 		super();
-		this.storeId = storeId;
-		this.customerId = customerId;
+		this.store = store;
+		this.customer = customer;
 		this.totalPrice = totalPrice;
 		this.pizzas = pizzas;
 	}
 	
-	public PizzaOrder(int id, int storeId, int customerId, int totalPrice, List<Pizza> pizzas) {
+	public PizzaOrder(int id, Store store, Customer customer, double totalPrice, List<Pizza> pizzas) {
 		super();
 		this.id = id;
-		this.storeId = storeId;
-		this.customerId = customerId;
+		this.store = store;
+		this.customer = customer;
 		this.totalPrice = totalPrice;
 		this.pizzas = pizzas;
 	}
@@ -64,27 +74,27 @@ public class PizzaOrder {
 		this.id = id;
 	}
 
-	public int getStoreId() {
-		return storeId;
+	public Store getStore() {
+		return store;
 	}
 
-	public void setStoreId(int storeId) {
-		this.storeId = storeId;
+	public void setStore(Store store) {
+		this.store = store;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
-	public int getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(int totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
@@ -96,10 +106,16 @@ public class PizzaOrder {
 		this.pizzas = pizzas;
 	}
 	
+	public void addPizza(Pizza pizza) {
+		if(pizzas == null)
+			pizzas = new ArrayList<Pizza>();
+		pizzas.add(pizza);
+	}
+	
 	public void set(PizzaOrder newOrder) {
-		this.storeId = (Integer) newOrder.storeId != null ? newOrder.storeId : this.storeId;
-		this.customerId = (Integer) newOrder.customerId != null ? newOrder.customerId : this.customerId;
-		this.totalPrice = (Integer) newOrder.totalPrice != null ? newOrder.totalPrice : this.totalPrice;
+		this.store = newOrder.store != null ? newOrder.store : this.store;
+		this.customer = newOrder.customer != null ? newOrder.customer : this.customer;
+		this.totalPrice = (Double) newOrder.totalPrice != null ? newOrder.totalPrice : this.totalPrice;
 		this.pizzas = newOrder.pizzas != null ? newOrder.pizzas : this.pizzas;
 	}
 }

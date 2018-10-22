@@ -13,20 +13,20 @@ public class Base {
 	
 	private String name;
 	private int quantity;
-	private int price;
+	private double price;
 	
 	public Base() {
 		super();
 	}
 
-	public Base(String name, int price, int quantity) {
+	public Base(String name, double price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 	}
 
-	public Base(int id, String name, int price) {
+	public Base(int id, String name, double price) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -57,17 +57,17 @@ public class Base {
 		this.quantity = quantity;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
 	public void set(Base newBase) {
 		this.name = newBase.name != null ? newBase.name : this.name;
-		this.price = (Integer) newBase.price != null ? newBase.price : this.price;
+		this.price = (Double) newBase.price != null ? newBase.price : this.price;
 		this.quantity = (Integer) newBase.quantity != null ? newBase.quantity : this.quantity;
 	}
 }

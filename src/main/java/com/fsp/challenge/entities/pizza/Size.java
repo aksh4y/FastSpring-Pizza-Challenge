@@ -13,20 +13,20 @@ public class Size {
 	
 	private String name;
 	private int quantity;
-	private int price;
+	private double price;
 	
 	public Size() {
 		super();
 	}
 
-	public Size(String name, int price, int quantity) {
+	public Size(String name, double price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 	}
 
-	public Size(int id, String name, int price, int quantity) {
+	public Size(int id, String name, double price, int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,17 +58,17 @@ public class Size {
 		this.quantity = quantity;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
 	public void set(Size newSize) {
 		this.name = newSize.name != null ? newSize.name : this.name;
-		this.price = (Integer) newSize.price != null ? newSize.price : this.price;
+		this.price = (Double) newSize.price != null ? newSize.price : this.price;
 		this.quantity = (Integer) newSize.quantity != null ? newSize.quantity : this.quantity;
 	}
 }

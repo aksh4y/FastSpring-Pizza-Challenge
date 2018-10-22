@@ -13,20 +13,20 @@ public class Cheese {
 	
 	private String name;
 	private int quantity;
-	private int price;
+	private double price;
 	
 	public Cheese() {
 		super();
 	}
 
-	public Cheese(String name, int price, int quantity) {
+	public Cheese(String name, double price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.quantity = quantity;
 	}
 
-	public Cheese(int id, String name, int price, int quantity) {
+	public Cheese(int id, String name, double price, int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,17 +58,17 @@ public class Cheese {
 		this.name = name;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	
 	public void set(Cheese newCheese) {
 		this.name = newCheese.name != null ? newCheese.name : this.name;
-		this.price = (Integer) newCheese.price != null ? newCheese.price : this.price;
+		this.price = (Double) newCheese.price != null ? newCheese.price : this.price;
 		this.quantity = (Integer) newCheese.quantity != null ? newCheese.quantity : this.quantity;
 	}
 }
