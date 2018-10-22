@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 public class Person {
 	@Id
@@ -24,11 +22,9 @@ public class Person {
 	private Date dob;
 	
 	@OneToMany(mappedBy="person", orphanRemoval=true)
-	@JsonIgnore
 	private List<Phone> phones;
 	
 	@OneToMany(mappedBy="person", orphanRemoval=true)
-	@JsonIgnore
 	private List<Address> addresses;
 	
 	public Person(int id, String firstName, String lastName, String username, String password, String email, Date dob) {

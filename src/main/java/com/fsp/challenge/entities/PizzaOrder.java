@@ -118,6 +118,8 @@ public class PizzaOrder {
 			for(Pizza p : pizzas)
 				totalPrice += p.getPrice();
 		}
+		else 
+			totalPrice = 0;
 	}
 	
 	public void set(PizzaOrder newOrder) {

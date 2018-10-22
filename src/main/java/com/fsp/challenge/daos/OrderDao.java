@@ -1,5 +1,7 @@
 package com.fsp.challenge.daos;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +15,11 @@ import com.fsp.challenge.entities.Customer;
 import com.fsp.challenge.entities.PizzaOrder;
 import com.fsp.challenge.entities.Store;
 import com.fsp.challenge.entities.pizza.Pizza;
+import com.fsp.challenge.entities.pizza.Promo;
 import com.fsp.challenge.repositories.CustomerRepository;
 import com.fsp.challenge.repositories.OrderRepository;
 import com.fsp.challenge.repositories.PizzaRepository;
+import com.fsp.challenge.repositories.PromoRepository;
 import com.fsp.challenge.repositories.StoreRepository;
 
 @RestController
@@ -28,7 +32,9 @@ public class OrderDao {
 	CustomerRepository customerRepository;
 	@Autowired
 	StoreRepository storeRepository;
-
+	@Autowired
+	PromoRepository promoRepository;
+	
 	@PostMapping("/api/order")
 	public PizzaOrder createOrder(@RequestBody PizzaOrder order) {
 		return orderRepository.save(order);
@@ -51,6 +57,22 @@ public class OrderDao {
 			@RequestBody PizzaOrder newOrder) {
 		PizzaOrder order = orderRepository.findOne(id);
 		order.set(newOrder);
+		return orderRepository.save(order);
+	}
+	
+	@PutMapping("/api/order/{orderId}/promo/{code}")
+	public PizzaOrder addPromo(
+			@PathVariable("orderId") int id,
+			@PathVariable("code") String code) {
+		PizzaOrder order = orderRepository.findOne(id);
+		Promo promo = promoRepository.find(code);
+		Date today = new Date();
+		if(promo != null && promo.getStore() == order.getStore() && promo.getUsed() == 0) {// && promo.getExpiration().before(today) && promo.getDiscountPercent() > 0 && promo.getDiscountPercent() < 101) {
+			double promoPrice = order.getTotalPrice() - ((promo.getDiscountPercent() / 100) * order.getTotalPrice());
+			order.setTotalPrice(promoPrice);
+			promo.setUsed(1);
+			promoRepository.save(promo);
+		}
 		return orderRepository.save(order);
 	}
 	
