@@ -1,45 +1,38 @@
 package com.fsp.challenge.entities;
 
 import java.sql.Date;
-
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import com.fsp.challenge.entities.Store;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class StoreManager extends Person {
 
-	private int personId;
 	private String managerKey;
 	
 	@ManyToOne()
+	@JoinColumn(name="store_id")
 	@JsonIgnore
 	private Store store;
 
 	public StoreManager() {
 		super();
 	}
-
-	
-	public StoreManager(int personId, String firstName, String lastName, String username, String password, String email,
-			Date dob, String managerKey) {
-		super(personId, firstName, lastName, username, password, email, dob);
-		this.personId = personId;
-		this.managerKey = managerKey;
-	}
-	
+		
 	public StoreManager(String firstName, String lastName, String username, String password, String email,
 			Date dob, String managerKey) {
 		super(firstName, lastName, username, password, email, dob);
 		this.managerKey = managerKey;
 	}
 
-	public int getPersonId() {
-		return personId;
+	public int geId() {
+		return super.getId();
 	}
-	public void setPersonId(int personId) {
-		this.personId = personId;
+	public void setId(int id) {
+		super.setId(id);
 	}
 
 	public String getManagerKey() {
@@ -62,5 +55,7 @@ public class StoreManager extends Person {
 		super.set(newManager);
 		this.managerKey = newManager.managerKey !=null ? 
 				newManager.managerKey : this.managerKey;
+		this.store = newManager.store !=null ? 
+				newManager.store : this.store;
 	}
 }

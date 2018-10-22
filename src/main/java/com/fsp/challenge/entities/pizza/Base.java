@@ -12,16 +12,18 @@ public class Base {
 	private int id;
 	
 	private String name;
+	private int quantity;
 	private int price;
 	
 	public Base() {
 		super();
 	}
 
-	public Base(String name, int price) {
+	public Base(String name, int price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public Base(int id, String name, int price) {
@@ -47,6 +49,14 @@ public class Base {
 		this.name = name;
 	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
 	public int getPrice() {
 		return price;
 	}
@@ -58,5 +68,6 @@ public class Base {
 	public void set(Base newBase) {
 		this.name = newBase.name != null ? newBase.name : this.name;
 		this.price = (Integer) newBase.price != null ? newBase.price : this.price;
+		this.quantity = (Integer) newBase.quantity != null ? newBase.quantity : this.quantity;
 	}
 }

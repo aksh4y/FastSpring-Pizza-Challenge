@@ -1,5 +1,6 @@
 package com.fsp.challenge.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,9 +19,13 @@ public class Store {
 	private int id;
 	private String name;
 	
-	@OneToMany(mappedBy = "store")
+	@OneToMany(mappedBy="store", orphanRemoval=true)
 	@JsonIgnore
 	private List<StoreManager> storeManagers;
+	
+	public Store() {
+		super();
+	}
 	
 	public Store(String name) {
 		super();
@@ -57,5 +62,16 @@ public class Store {
 		this.storeManagers = newStore.storeManagers != null ?
 				newStore.storeManagers : this.storeManagers;
 	}
-	
+	public void addManager(StoreManager manager) {
+		if(storeManagers == null)
+			storeManagers = new ArrayList<StoreManager>();
+		storeManagers.add(manager);
+		manager.setStore(this);
+	}
+	public void removeManager(StoreManager manager) {
+		if(storeManagers == null)
+			return;
+		storeManagers.remove(manager);
+		manager.setStore(null);
+	}
 }

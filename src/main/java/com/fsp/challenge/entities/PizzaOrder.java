@@ -1,46 +1,55 @@
 package com.fsp.challenge.entities;
 
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsp.challenge.entities.pizza.Pizza;
 
 @Entity
-public class Order {
+public class PizzaOrder {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
-	
 	private int storeId;
 	private int customerId;
 	private int totalPrice;
 	
-	@OneToMany(mappedBy = "order")
+	@OneToMany(mappedBy = "order", orphanRemoval=true)
 	@JsonIgnore
 	private List<Pizza> pizzas;
 
-	public Order() {
+	public PizzaOrder() {
 		super();
 	}
 	
-	public Order(int storeId, int customerId) {
+	public PizzaOrder(int storeId, int customerId) {
+		super();
 		this.storeId = storeId;
 		this.customerId = customerId;
 	}
 	
-	public Order(int storeId, int customerId, int totalPrice) {
+	public PizzaOrder(int storeId, int customerId, int totalPrice) {
+		super();
 		this.storeId = storeId;
 		this.customerId = customerId;
 		this.totalPrice = totalPrice;
 	}
 	
-	public Order(int storeId, int customerId, int totalPrice, List<Pizza> pizzas) {
+	public PizzaOrder(int storeId, int customerId, int totalPrice, List<Pizza> pizzas) {
+		super();
+		this.storeId = storeId;
+		this.customerId = customerId;
+		this.totalPrice = totalPrice;
+		this.pizzas = pizzas;
+	}
+	
+	public PizzaOrder(int id, int storeId, int customerId, int totalPrice, List<Pizza> pizzas) {
+		super();
+		this.id = id;
 		this.storeId = storeId;
 		this.customerId = customerId;
 		this.totalPrice = totalPrice;
@@ -87,7 +96,7 @@ public class Order {
 		this.pizzas = pizzas;
 	}
 	
-	public void set(Order newOrder) {
+	public void set(PizzaOrder newOrder) {
 		this.storeId = (Integer) newOrder.storeId != null ? newOrder.storeId : this.storeId;
 		this.customerId = (Integer) newOrder.customerId != null ? newOrder.customerId : this.customerId;
 		this.totalPrice = (Integer) newOrder.totalPrice != null ? newOrder.totalPrice : this.totalPrice;

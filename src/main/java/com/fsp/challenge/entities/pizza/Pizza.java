@@ -11,9 +11,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fsp.challenge.entities.Order;
+import com.fsp.challenge.entities.PizzaOrder;
 
 @Entity
 public class Pizza {
@@ -22,15 +23,24 @@ public class Pizza {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	private int baseId;
-	private int sauceId;
-	private int cheeseId;
-	private int sizeId;
+	@OneToOne
+    @JoinColumn(name="BASE_ID")
+	private Base base;
+	@OneToOne
+    @JoinColumn(name="SAUCE_ID")
+	private Sauce sauce;
+	@OneToOne
+    @JoinColumn(name="CHEESE_ID")
+	private Cheese cheese;
+	@OneToOne
+    @JoinColumn(name="SIZE_ID")
+	private Size size;
 	private int price;
 
 	@ManyToOne()
+	@JoinColumn(name="pizza_order_id")
 	@JsonIgnore
-	private Order order;
+	private PizzaOrder order;
 
 	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable(name="pizza_toppings",
@@ -42,28 +52,31 @@ public class Pizza {
 	public Pizza() {
 		super();
 	}
-	public Pizza(int size, int base, int cheese, int sauce) {
+	public Pizza(Size size, Base base, Cheese cheese, Sauce sauce) {
 		super();
-		this.sizeId = size;
-		this.baseId = base;
-		this.cheeseId = cheese;
-		this.sauceId = sauce;
+		this.size = size;
+		this.base = base;
+		this.cheese = cheese;
+		this.sauce = sauce;
+		calculatePrice();
 	}
-	public Pizza(int id, int size, int base, int cheese, int sauce) {
+	public Pizza(int id, Size size, Base base, Cheese cheese, Sauce sauce) {
 		super();
 		this.id = id;
-		this.sizeId = size;
-		this.baseId = base;
-		this.cheeseId = cheese;
-		this.sauceId = sauce;
+		this.size = size;
+		this.base = base;
+		this.cheese = cheese;
+		this.sauce = sauce;
+		calculatePrice();
 	}
-	public Pizza(int size, int base, int cheese, int sauce, List<Topping> toppings) {
+	public Pizza(Size size, Base base, Cheese cheese, Sauce sauce, List<Topping> toppings) {
 		super();
-		this.sizeId = size;
-		this.baseId = base;
-		this.cheeseId = cheese;
-		this.sauceId = sauce;
+		this.size = size;
+		this.base = base;
+		this.cheese = cheese;
+		this.sauce = sauce;
 		this.toppings = toppings;
+		calculatePrice();
 	}
 	public int getId() {
 		return id;
@@ -71,41 +84,35 @@ public class Pizza {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getBaseId() {
-		return baseId;
+	public Base getBase() {
+		return base;
 	}
-	public void setBaseId(int baseId) {
-		this.baseId = baseId;
+	public void setBase(Base base) {
+		this.base = base;
 	}
-	public int getSauceId() {
-		return sauceId;
+	public Sauce getSauce() {
+		return sauce;
 	}
-
-	public void setSauceId(int sauceId) {
-		this.sauceId = sauceId;
+	public void setSauce(Sauce sauce) {
+		this.sauce = sauce;
 	}
-
-	public int getCheeseId() {
-		return cheeseId;
+	public Cheese getCheese() {
+		return cheese;
 	}
-
-	public void setCheeseId(int cheeseId) {
-		this.cheeseId = cheeseId;
+	public void setCheese(Cheese cheese) {
+		this.cheese = cheese;
 	}
-
-	public int getSizeId() {
-		return sizeId;
+	public Size getSize() {
+		return size;
 	}
-
-	public void setSizeId(int sizeId) {
-		this.sizeId = sizeId;
+	public void setSize(Size size) {
+		this.size = size;
 	}
-
-	public Order getOrder() {
+	public PizzaOrder getOrder() {
 		return order;
 	}
 
-	public void setOrder(Order order) {
+	public void setOrder(PizzaOrder order) {
 		this.order = order;
 	}
 
@@ -123,12 +130,21 @@ public class Pizza {
 	public void setToppings(List<Topping> toppings) {
 		this.toppings = toppings;
 	}
+	public void calculatePrice() {
+		price = size.getPrice() + base.getPrice() + cheese.getPrice() + sauce.getPrice();
+		if(toppings != null)
+			for(Topping t : toppings)
+				price += t.getPrice();
+	}
+	
 	public void set(Pizza newPizza) {
-		this.sizeId = (Integer) newPizza.sizeId != null ? newPizza.sizeId : this.sizeId;
-		this.baseId = (Integer) newPizza.baseId != null ? newPizza.baseId : this.baseId;
-		this.cheeseId = (Integer) newPizza.cheeseId != null ? newPizza.cheeseId : this.cheeseId;
-		this.sauceId = (Integer) newPizza.sauceId != null ? newPizza.sauceId : this.sauceId;
+		this.order = newPizza.order != null? newPizza.order : this.order;
+		this.size = newPizza.size != null ? newPizza.size : this.size;
+		this.base = newPizza.base != null ? newPizza.base : this.base;
+		this.cheese = newPizza.cheese != null ? newPizza.cheese : this.cheese;
+		this.sauce = newPizza.sauce != null ? newPizza.sauce : this.sauce;
 		this.toppings = newPizza.toppings != null ? newPizza.toppings : this.toppings;
+		calculatePrice();
 	}
 
 }

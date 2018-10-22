@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fsp.challenge.entities.Store;
 import com.fsp.challenge.entities.StoreManager;
 import com.fsp.challenge.repositories.StoreManagerRepository;
 
@@ -32,6 +34,13 @@ public class StoreManagerDao {
 	public StoreManager findStoreManagerById(
 			@PathVariable("storeManagerId") int id) {
 		return storeManagerRepository.findOne(id);
+	}
+	
+	@GetMapping("/api/storeManager/{storeManagerId}/store")
+	public Store findStoreByManagerId(
+			@PathVariable("storeManagerId") int id) {
+		StoreManager sm = storeManagerRepository.findOne(id);
+		return sm.getStore();
 	}
 
 	@PutMapping("/api/storeManager/{storeManagerId}")

@@ -1,11 +1,15 @@
 package com.fsp.challenge.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Person {
@@ -19,6 +23,13 @@ public class Person {
 	private String email;
 	private Date dob;
 	
+	@OneToMany(mappedBy="person", orphanRemoval=true)
+	@JsonIgnore
+	private List<Phone> phones;
+	
+	@OneToMany(mappedBy="person", orphanRemoval=true)
+	@JsonIgnore
+	private List<Address> addresses;
 	
 	public Person(int id, String firstName, String lastName, String username, String password, String email, Date dob) {
 		super();
@@ -87,7 +98,22 @@ public class Person {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	
+
+	public List<Phone> getPhones() {
+		return phones;
+	}
+
+	public void setPhones(List<Phone> phones) {
+		this.phones = phones;
+	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
 	public void set(Person newPerson) {
 		this.firstName = newPerson.firstName != null ?
 				newPerson.firstName : this.firstName; 
@@ -101,6 +127,8 @@ public class Person {
 				newPerson.email : this.email;
 		this.dob = newPerson.dob != null ?
 				newPerson.dob : this.dob;
+		this.phones = newPerson.phones != null ? newPerson.phones : this.phones;
+		this.addresses = newPerson.addresses != null ? newPerson.addresses : this.addresses;
 	}
 	
 }

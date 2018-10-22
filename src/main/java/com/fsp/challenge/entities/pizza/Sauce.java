@@ -12,23 +12,26 @@ public class Sauce {
 	private int id;
 	
 	private String name;
+	private int quantity;
 	private int price;
 	
 	public Sauce() {
 		super();
 	}
 
-	public Sauce(String name, int price) {
+	public Sauce(String name, int price, int quantity) {
 		super();
 		this.name = name;
 		this.price = price;
+		this.quantity = quantity;
 	}
 
-	public Sauce(int id, String name, int price) {
+	public Sauce(int id, String name, int price, int quantity) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
+		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -46,6 +49,14 @@ public class Sauce {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	public int getPrice() {
 		return price;
@@ -58,5 +69,6 @@ public class Sauce {
 	public void set(Sauce newSauce) {
 		this.name = newSauce.name != null ? newSauce.name : this.name;
 		this.price = (Integer) newSauce.price != null ? newSauce.price : this.price;
+		this.quantity = (Integer) newSauce.quantity != null ? newSauce.quantity : this.quantity;
 	}
 }
