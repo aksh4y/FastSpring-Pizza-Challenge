@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.fsp.challenge.FastSpringPizzaApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 51.667 sec - in com.fsp.challenge.FastSpringPizzaApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 243.311 sec - in com.fsp.challenge.FastSpringPizzaApplicationTests
