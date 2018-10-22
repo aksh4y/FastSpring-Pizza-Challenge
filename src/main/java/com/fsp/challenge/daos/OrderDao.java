@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fsp.challenge.entities.Customer;
 import com.fsp.challenge.entities.PizzaOrder;
+import com.fsp.challenge.entities.Promo;
 import com.fsp.challenge.entities.Store;
 import com.fsp.challenge.entities.pizza.Pizza;
-import com.fsp.challenge.entities.pizza.Promo;
 import com.fsp.challenge.repositories.CustomerRepository;
 import com.fsp.challenge.repositories.OrderRepository;
 import com.fsp.challenge.repositories.PizzaRepository;

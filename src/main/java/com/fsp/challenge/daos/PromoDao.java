@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.fsp.challenge.entities.Promo;
 import com.fsp.challenge.entities.Store;
-import com.fsp.challenge.entities.pizza.Promo;
 import com.fsp.challenge.repositories.PromoRepository;
 import com.fsp.challenge.repositories.StoreRepository;
 

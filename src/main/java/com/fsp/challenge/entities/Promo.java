@@ -1,4 +1,4 @@
-package com.fsp.challenge.entities.pizza;
+package com.fsp.challenge.entities;
 
 import java.sql.Date;
 
@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fsp.challenge.entities.Store;
 
 @Entity
 public class Promo {
